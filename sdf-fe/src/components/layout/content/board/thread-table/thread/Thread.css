@@ -1,0 +1,12 @@
+.thread{
+    display: grid;
+    grid-template-columns: 5fr 2fr 1.5fr 1.5fr;
+}
+
+.odd{
+    background-color: aliceblue;
+}
+
+.even{
+    background-color: grey;
+}

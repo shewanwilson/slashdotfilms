@@ -1,0 +1,14 @@
+1.0 
+
+Backend: API endpoints for displaying boards, threads and posts
+Frontend: Basic Navigation from Board Menu to Board to Thread to Posts and in reverse order via breadcrumbing
+Testing: Basic validation of Board Menu, Board and Threads, Posts
+
+2.0
+
+Backend: API endpoints for creating threads and posting to threads
+Frontend: UI framing and basic styling + routing and display for creating threads and posts
+
+3.0
+Backend: Design and Create User tables in DB
+Frontend 

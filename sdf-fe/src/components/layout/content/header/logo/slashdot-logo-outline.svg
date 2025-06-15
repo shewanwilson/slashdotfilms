@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 50" preserveAspectRatio="xMinYMid meet">
+  <style>
+    .text {
+      font-family: Impact, Arial, sans-serif;
+      font-weight: bold;
+      fill: red;
+      stroke: black;
+      stroke-width: 2;
+      paint-order: stroke fill;
+    }
+  </style>
+  <text x="0" y="45" font-size="48" class="text">slashdot films</text>
+</svg>

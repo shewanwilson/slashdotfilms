@@ -1,0 +1,15 @@
+.search {
+  display: flex;
+  justify-content: center;
+  border: purple solid 1px;
+}
+
+.search-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+

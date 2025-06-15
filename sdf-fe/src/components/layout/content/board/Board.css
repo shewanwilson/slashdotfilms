@@ -1,0 +1,25 @@
+.board {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+}
+
+.board a {
+  color: #0056b3;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.board a:hover {
+  text-decoration: underline;
+}
+
+.board p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
