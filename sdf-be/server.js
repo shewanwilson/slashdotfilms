@@ -10,8 +10,11 @@ app.use(cors());
 //const boardRoutes = require('./routes/boardRoutes');
 const threadRoutes = require('./routes/threadRoutes'); 
 const postRoutes = require('./routes/postRoutes');
+const authRoutes = require('./routes/authRoutes');
+
 
 //app.use('/api', boardRoutes);
+app.use('/api', authRoutes);
 app.use('/api', threadRoutes);
 app.use('/api', postRoutes);
 

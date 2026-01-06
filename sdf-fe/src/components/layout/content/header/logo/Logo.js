@@ -1,11 +1,19 @@
-import logoImage from './slashdot-films-wickerman.png'; // or .webp
-import './Logo.css'
+import { Link } from "react-router-dom";
+import logoImage from './slashdot-films-wickerman.png';
+import './Logo.css';
 
 function Logo() {
   return (
     <div className="logo">
-      <img src={logoImage} alt="Slashdot Films logo" className="logo-img" />
+      <Link to="/">
+        <img
+          src={logoImage}
+          alt="Slashdot Films logo"
+          className="logo-img"
+        />
+      </Link>
     </div>
   );
 }
-export default Logo
+
+export default Logo;

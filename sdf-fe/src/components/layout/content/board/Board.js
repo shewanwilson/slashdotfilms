@@ -12,7 +12,7 @@ const boardTitles = {
     4: 'Game Of Thrones',
 };
 
-function Board() {
+function Board({ isSignedIn, onLogout }) {
     const { boardId } = useParams();
     const title = boardTitles[boardId] || "Board";
 
@@ -29,7 +29,7 @@ function Board() {
         <div className="board">
             <Link to="/">← Back to Board Menu</Link>
             <p>{title}</p>
-            <NewTopicLink />
+            <NewTopicLink isSignedIn={isSignedIn} />
             <Pagination />
             <ThreadTable threads={threads} />
         </div>

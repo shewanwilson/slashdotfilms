@@ -1,26 +1,25 @@
 import React from 'react';
-import './ProfileLinks.css'
+import { Link } from "react-router-dom";
+import './ProfileLinks.css';
 
-// Example: you can pass this as a prop or manage it globally
-const isSignedIn = true; // <-- change this to true to test signed-in state
-
-function ProfileLinks() {
+function ProfileLinks({ isSignedIn, onLogout }) {
     return (
         <div className="profile-links">
             {!isSignedIn ? (
-                // Signed out: show login icon or link
-                <button className="login-link">
+                <Link to="/login" className="login-link">
                     Login
-                </button>
+                </Link>
             ) : (
-                // Signed in: show avatar and/or links
                 <>
                     <img
                         src="https://ui-avatars.com/api/?name=Barry+Wilson&background=0D8ABC&color=fff"
                         alt="Profile"
                         className="profile-avatar"
                     />
-                    <button className="logout-link">
+                    <button
+                        className="logout-link"
+                        onClick={onLogout}
+                    >
                         Logout
                     </button>
                 </>

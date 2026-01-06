@@ -6,14 +6,17 @@ import './Thread.css';
 
 function Thread(threadData) {
 
-    return (<div className={threadData.index %2===0 ? 'thread even':'thread odd'}>
+    var ThreadStyleClass = threadData.index %2===0 ? 'thread even':'thread odd';
+    var LinkBackToBoardMenu = `/thread/posts/${threadData.threadId}`;
+
+    return (<div className={ThreadStyleClass}>
         <span className='thread-title'>
-            <Link to={`/thread/posts/${threadData.threadId}`}>{threadData.title}</Link>
+            <Link to={LinkBackToBoardMenu}>{threadData.title}</Link>
         </span>
         <span>{threadData.startedBy}</span>
         <span>{threadData.numberOfPosts}</span>
         <span>{<LastPostTime 
-                threadData={threadData.timeOfLastPost}
+                timeOfLastPost={threadData.timeOfLastPost}
                 />}
         </span>
     </div>);

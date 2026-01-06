@@ -2,8 +2,10 @@ import React from 'react';
 import './ThreadTable.css';
 import Thread from "./thread/Thread";
 
-function ThreadTable({ threads }) {
-    if (!threads || threads.length === 0) {
+function ThreadTable({ threads = [] }) {
+    const threadsArray = Array.isArray(threads) ? threads : [];
+
+    if (threadsArray.length === 0) {
         return <p>No threads found.</p>;
     }
 

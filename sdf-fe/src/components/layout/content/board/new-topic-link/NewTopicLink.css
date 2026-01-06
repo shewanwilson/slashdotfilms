@@ -1,3 +1,8 @@
 .new-topic-link{
     display:inline-block;
 }
+
+.new-topic-link p{
+    font-size: small;
+    font-weight: normal;
+}

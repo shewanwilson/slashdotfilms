@@ -2,7 +2,6 @@
 import React from 'react';
 import './App.css';
 import './index.css';
-import './components/layout/Layout.js';
 import Layout from './components/layout/Layout.js';
 
 function App(){
