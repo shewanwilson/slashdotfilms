@@ -1,8 +1,12 @@
+CREATE DATABASE IF NOT EXISTS sdf_db;
+USE sdf_db;
+
 -- MySQL dump 10.13  Distrib 9.5.0, for macos15.7 (arm64)
 --
 -- Host: localhost    Database: sdf_db
 -- ------------------------------------------------------
 -- Server version	9.5.0
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -21,7 +25,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '6176f000-c246-11f0-b900-8145d55f5cad:1-32';
+#SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '6176f000-c246-11f0-b900-8145d55f5cad:1-32';
 
 --
 -- Table structure for table `board`

@@ -11,4 +11,7 @@ Frontend: UI framing and basic styling + routing and display for creating thread
 
 3.0
 Backend: Design and Create User tables in DB
-Frontend 
+Frontend: Login/Registration routing 
+
+
+pornapi: NWWlrxV-RmlLQAk2-rG9wJIaCALUbZwrg5tfCYM9ytY

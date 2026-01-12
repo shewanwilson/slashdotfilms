@@ -1,0 +1,47 @@
+.new-thread {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.new-thread-title {
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+}
+
+.new-thread-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.new-thread-form label {
+  font-weight: bold;
+}
+
+.new-thread-form input,
+.new-thread-form textarea {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.new-thread-form textarea {
+  resize: vertical;
+}
+
+.new-thread-actions {
+  margin-top: 1rem;
+}
+
+.submit-btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.form-error {
+  color: #b00020;
+  font-weight: bold;
+}
