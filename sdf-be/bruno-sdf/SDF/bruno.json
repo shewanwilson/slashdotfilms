@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "SDF",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

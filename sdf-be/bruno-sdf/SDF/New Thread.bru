@@ -1,0 +1,22 @@
+meta {
+  name: New Thread
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:5000/api/thread/new/1/1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "thread_title":"api test thread" 
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

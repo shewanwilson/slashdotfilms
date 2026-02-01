@@ -1,0 +1,25 @@
+meta {
+  name: Register
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:5000/api/register
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username": "Hepocles",
+    "email": "hep@example.com",
+    "password": "pass123"
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
