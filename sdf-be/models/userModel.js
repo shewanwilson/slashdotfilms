@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 exports.findByEmail = async (email) => {
   const [rows] = await db.query(
-    "SELECT id, email, password_hash FROM users WHERE email = ?",
+    "SELECT id, email, password_hash FROM board_user WHERE email = ?",
     [email]
   );
 
@@ -11,7 +11,7 @@ exports.findByEmail = async (email) => {
 
 exports.createUser = async (username, email, password_hash) => {
   const [result] = await db.query(
-    "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)",
+    "INSERT INTO board_user (username, email, password_hash) VALUES (?, ?, ?)",
     [username, email, password_hash]
   );
 

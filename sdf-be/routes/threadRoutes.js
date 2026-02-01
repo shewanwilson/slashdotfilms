@@ -1,7 +1,8 @@
 const express = require('express'); 
 const router = express.Router(); 
 const threadController = require('../controllers/threadController'); 
-//router.get('/thread/', threadController.getThreads); 
-router.get('/threads/:board_id', threadController.getThreadsByBoardId); 
+
+router.get('/threads/:board_id', threadController.getThreadsByBoardId);
+router.post('/thread/new/:user_id/:board_id', threadController.postNewThread);  
 
 module.exports = router; 
