@@ -34,6 +34,10 @@ exports.login = async (req, res) => {
   try {
     const user = await authService.login(email, password);
 
+    //store user id in the session
+    req.session.user_id = user.id;
+    console.log('LOGGED IN - ID = ' + user.id);
+
     return res.json({
       id: user.id,
       email: user.email

@@ -10,19 +10,17 @@ const Thread = {
     const [rows] = await db.query("SELECT * FROM thread WHERE board_id = ?", [board_id]); 
     return rows; 
   },
-  postNewThread: async (thread_title, board_id, started_by_user_id) => {
+  
+  createThread: async (thread_title, op_body, board_id, started_by_user_id) => {
     const [result] = await db.query(
-      "INSERT INTO thread (thread_title, board_id, started_by_user_id) VALUES (?, ?, ?)",
-      [thread_title, board_id, started_by_user_id]
+      `INSERT INTO thread
+       (thread_title, op_body, board_id, started_by_user_id)
+       VALUES (?, ?, ?, ?)`,
+      [thread_title, op_body, board_id, started_by_user_id]
     );
 
-      return {
-      thread_id: result.insertId,
-      thread_title,
-      board_id,
-      started_by_user_id
-    };
-  } 
+    return result.insertId;
+  }
 }; 
 
 module.exports = Thread;

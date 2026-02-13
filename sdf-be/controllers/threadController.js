@@ -13,18 +13,33 @@ exports.getThreadsByBoardId = async (req, res) => {
 }; 
 
 exports.postNewThread = async (req, res) => {
-
-  try{
-    console.log('BODY:', req.body);
-    const {thread_title} = req.body;
+  try {
+    const { thread_title, op_body } = req.body;
     const board_id = req.params.board_id;
-    const started_by_user_id = req.params.user_id;
-    
-    const newThread = await ThreadModel.postNewThread(thread_title, board_id, started_by_user_id);
+    const started_by_user_id = req.session.user_id;
 
-    res.status(201).json(newThread);
+    console.log('Session User ID in ThreadController = ' + started_by_user_id);
 
-  }catch (error) {
+    if (!started_by_user_id) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    if (!thread_title || !op_body) {
+      return res.status(400).json({
+        message: "Thread title and body are required"
+      });
+    }
+
+    const thread_id = await ThreadModel.createThread(
+      thread_title,
+      op_body,
+      board_id,
+      started_by_user_id
+    );
+
+    res.status(201).json({ thread_id });
+
+  } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
   }

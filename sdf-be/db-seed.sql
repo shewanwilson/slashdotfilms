@@ -4,6 +4,13 @@
 -- ------------------------------------------------------
 -- Server version	9.5.0
 
+CREATE DATABASE IF NOT EXISTS sdf_db
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+
+USE sdf_db;
+
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -21,7 +28,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '6176f000-c246-11f0-b900-8145d55f5cad:1-89';
+-- SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '6176f000-c246-11f0-b900-8145d55f5cad:1-89';
 
 --
 -- Table structure for table `board`

@@ -37,7 +37,7 @@ function Content() {
                             <Board isSignedIn={isSignedIn} />
                         }
                         />
-                    <Route path="/thread/new-thread" element={<NewThread />}/>    
+                    <Route path="/thread/new/:boardId" element={<NewThread />}/>    
                     <Route path="/thread/:threadId" element={<Thread />} />
                     <Route path="/thread/posts/:threadId" element={<Post />} />
 

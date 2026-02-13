@@ -29,7 +29,7 @@ function Board({ isSignedIn, onLogout }) {
         <div className="board">
             <Link to="/">← Back to Board Menu</Link>
             <p>{title}</p>
-            <NewTopicLink isSignedIn={isSignedIn} />
+            <NewTopicLink isSignedIn={isSignedIn} boardId={boardId}/>
             <Pagination />
             <ThreadTable threads={threads} />
         </div>

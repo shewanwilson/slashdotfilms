@@ -1,0 +1,7 @@
+select * from sdf_db.post;
+
+ALTER TABLE `post`
+MODIFY COLUMN created_at
+DATETIME NOT NULL
+DEFAULT CURRENT_TIMESTAMP;
+
