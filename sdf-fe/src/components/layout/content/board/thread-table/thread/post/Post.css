@@ -1,34 +1,58 @@
 .post-table {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
     padding: 2rem;
     max-width: 800px;
     margin: 0 auto;
     background-color: #f4f4f4;
 }
 
+/* Base post card */
 .post {
     border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
+    border-radius: 8px;    
     background-color: white;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* === THREAD OP STYLING === */
+.post.op {
+    border: 2px solid #343a40;
+}
+
+/* === REPLY STYLING === */
+.post.reply {
+    border-left: 4px solid #dee2e6;
+}
+
+/* Container for nested children */
+.post-children {
+    margin-top: 1.5rem;
 }
 
 /* Post header */
 .post-title {
     background-color: #343a40;
     color: white;
-    padding: 0.2rem 0.6rem; /* minimal vertical and horizontal padding */
+    padding: 0.2rem 0.6rem;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
 
+.post-title h3,
 .post-title h4 {
     font-size: 1rem;
     margin: 0;
     line-height: 1.2;
+}
+
+.post-body {
+    padding: 1.25rem;
+}
+
+.post-wrapper {
+    display: block;
+    margin-bottom: 1.25rem;
 }
 
 /* User + reply bar */
@@ -51,7 +75,7 @@
 .avatar {
     width: 40px;
     height: 40px;
-    border-radius: 6px;         /* Rounded corners instead of full circle */
+    border-radius: 6px;
     object-fit: cover;
     border: 1px solid #ccc;
 }
