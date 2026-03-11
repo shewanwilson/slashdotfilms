@@ -31,7 +31,7 @@ function Board({ isSignedIn, onLogout }) {
             <p>{title}</p>
             <NewTopicLink isSignedIn={isSignedIn} boardId={boardId}/>
             <Pagination />
-            <ThreadTable threads={threads} />
+            <ThreadTable threads={threads} boardTitle={title} boardId={boardId} />
         </div>
     );
 }

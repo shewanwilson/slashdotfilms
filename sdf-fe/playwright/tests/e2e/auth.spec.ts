@@ -11,7 +11,8 @@ test('user can login with newly created account', async ({ page, testUser }) => 
 
   await loginPage.goto();
   await loginPage.login(testUser.email, testUser.password)
-  // Assertions 
+  
+  // Profile Assertions 
   await expect(header.profileAvatar).toBeVisible();
   await expect(header.logoutButton).toBeVisible();
 });

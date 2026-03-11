@@ -1,10 +1,26 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './BreadCrumb.css';
 
 
-class BreadCrumb extends React.Component{
-    render(){
-        return (<div className="bread-crumb">{"<" + this.props.previousBoard}</div>)
-    }
+function BreadCrumb({ boardId, boardTitle, threadTitle }) {
+
+    return (
+        <div className="breadcrumb">
+
+            <Link to="/">Boards</Link>
+            {" / "}
+
+            <Link to={`/board/${boardId}`}>
+                {boardTitle}
+            </Link>
+            {" / "}
+
+            <span>{threadTitle}</span>
+                
+            
+
+        </div>
+    );
 }
 export default BreadCrumb;

@@ -5,7 +5,7 @@ import BoardMenu from "./board-menu/BoardMenu";
 import Board from "./board/Board"; 
 import Thread from "./board/thread-table/thread/Thread";
 import NewThread from "./board/thread-table/thread/NewThread";
-import Post from "./board/thread-table/thread/post/Post";
+import Posts from "./board/thread-table/thread/posts/Posts";
 import LoginForm from "./login/LoginForm";
 import './Content.css';
 
@@ -39,7 +39,7 @@ function Content() {
                         />
                     <Route path="/thread/new/:boardId" element={<NewThread />}/>    
                     <Route path="/thread/:threadId" element={<Thread />} />
-                    <Route path="/thread/posts/:threadId" element={<Post />} />
+                    <Route path="/board/:boardId/thread/:threadId" element={<Posts />} />
 
                     <Route
                         path="/login"

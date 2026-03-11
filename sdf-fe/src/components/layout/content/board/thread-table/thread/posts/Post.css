@@ -1,0 +1,98 @@
+/* =========================
+   THREAD CONTAINER
+========================= */
+
+.post-table {
+    max-width: 900px;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* replies stack normally */
+
+.replies {
+    display: flex;
+    flex-direction: column;
+}
+
+/* indentation for nested replies */
+
+.post-wrapper {
+    margin-left: 30px;
+    margin-top: 18px;
+}
+
+/* =========================
+   POST PANEL
+========================= */
+
+.post {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #bfc6cc;
+    background: #e9eaec;
+}
+
+/* =========================
+   TITLE BAR
+========================= */
+
+.post-title {
+    background: #1c648c;
+    color: white;
+    padding: 8px 12px;
+    font-weight: bold;
+}
+
+.post-title h3,
+.post-title h4 {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* =========================
+   META ROW
+========================= */
+
+.post-meta {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+}
+
+.username {
+    font-weight: bold;
+}
+
+/* =========================
+   BODY
+========================= */
+
+.post-body {
+    background: #f3f3f5;
+    padding: 12px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    border-top: 1px solid #c8c8c8;
+}
+
+/* =========================
+   REPLY BUTTON
+========================= */
+
+.post-meta button {
+    font-size: 0.75rem;
+    border: 1px solid #888;
+    padding: 3px 8px;
+    background: #efefef;
+    cursor: pointer;
+}
+
+.post-meta button:hover {
+    background: #ddd;
+}

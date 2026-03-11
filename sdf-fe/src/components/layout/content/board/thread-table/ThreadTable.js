@@ -2,7 +2,7 @@ import React from 'react';
 import './ThreadTable.css';
 import Thread from "./thread/Thread";
 
-function ThreadTable({ threads = [] }) {
+function ThreadTable({ threads = [], boardTitle, boardId }) {
     const threadsArray = Array.isArray(threads) ? threads : [];
 
     if (threadsArray.length === 0) {
@@ -22,6 +22,8 @@ function ThreadTable({ threads = [] }) {
                 <Thread
                     key={thread.thread_id}
                     index={index}
+                    boardId={boardId}
+                    boardTitle={boardTitle}
                     threadId = {thread.thread_id}
                     title={thread.thread_title}
                     startedBy={thread.started_by} 
