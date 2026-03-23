@@ -1,6 +1,6 @@
 import React from 'react';
 import './ThreadTable.css';
-import Thread from "./thread/Thread";
+import Thread from "../thread/Thread";
 
 function ThreadTable({ threads = [], boardTitle, boardId }) {
     const threadsArray = Array.isArray(threads) ? threads : [];

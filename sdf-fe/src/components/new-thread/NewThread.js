@@ -39,7 +39,7 @@ function NewThread() {
       }
 
       const data = await res.json();
-      navigate(`/thread/posts/${data.thread_id}`);
+      navigate(`/board/${boardId}/thread/${data.thread_id}`);
 
     } catch (err) {
       console.error("Error creating thread:", err);

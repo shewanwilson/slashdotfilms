@@ -1,5 +1,5 @@
 import React from 'react';
-import LastPostTime from './LastPostTime';
+import LastPostTime from '../LastPostTime';
 import { Link } from "react-router-dom";
 import './Thread.css';
 

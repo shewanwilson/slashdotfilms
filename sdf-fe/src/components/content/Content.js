@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Header from "./header/Header";
-import BoardMenu from "./board-menu/BoardMenu";
-import Board from "./board/Board"; 
-import Thread from "./board/thread-table/thread/Thread";
-import NewThread from "./board/thread-table/thread/NewThread";
-import Posts from "./board/thread-table/thread/posts/Posts";
-import LoginForm from "./login/LoginForm";
+import Header from "../header/Header";
+import BoardMenu from "../board-menu/BoardMenu";
+import Board from "../board/Board"; 
+import Thread from "../thread/Thread";
+import NewThread from "../new-thread/NewThread";
+import Posts from "../posts/Posts";
+import LoginForm from "../login/LoginForm";
 import './Content.css';
+import PostReply from "../posts/PostReply";
 
 function Content() {
     const [isSignedIn, setIsSignedIn] = useState(false);
@@ -40,7 +41,7 @@ function Content() {
                     <Route path="/thread/new/:boardId" element={<NewThread />}/>    
                     <Route path="/thread/:threadId" element={<Thread />} />
                     <Route path="/board/:boardId/thread/:threadId" element={<Posts />} />
-
+                    <Route path="/board/:boardId/thread/:threadId/reply/:postId" element={<PostReply />} />     
                     <Route
                         path="/login"
                         element={

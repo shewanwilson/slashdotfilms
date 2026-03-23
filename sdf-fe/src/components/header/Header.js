@@ -1,7 +1,7 @@
 import React from 'react';
-import Logo from './logo/Logo';
-import Search from './search/Search';
-import ProfileLinks from './profile-links/ProfileLinks';
+import Logo from '../logo/Logo';
+import Search from '../search/Search';
+import ProfileLinks from '../profile-links/ProfileLinks';
 import './Header.css'
 
 function Header({ isSignedIn, onLogout }) {

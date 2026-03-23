@@ -1,0 +1,28 @@
+meta {
+  name: Post Reply
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:5000/api/thread/{{thread_id}}/reply
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "parent_id":0,
+    "post_title":"reply title for API POST REPLY",
+    "post_body":"reply body for API POST REPLY" 
+  }
+}
+
+vars:pre-request {
+  thread_id: 22
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

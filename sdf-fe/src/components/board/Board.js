@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './Board.css';
-import NewTopicLink from './new-topic-link/NewTopicLink';
-import Pagination from './pagination/Pagination';
-import ThreadTable from './thread-table/ThreadTable';
+import NewTopicLink from '../new-topic-link/NewTopicLink';
+import Pagination from '../pagination/Pagination';
+import ThreadTable from '../thread-table/ThreadTable';
 
 const boardTitles = {
     1: 'General',
