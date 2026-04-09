@@ -7,9 +7,9 @@ function NewTopicLink ({ isSignedIn, boardId }) {
     
     return(
         
-        <div className="new-topic-link">
+        <div data-testid="new-topic-link" className="new-topic-link">
             {!isSignedIn ? (<p>You must be signed in to make a new topic</p>)
-             : (<Link to={`/thread/new/${boardId}`}> Start New Topic </Link>) }
+             : (<Link to={`/thread/new/${boardId}`}>Start New Topic</Link>) }
         </div>
     );
 }

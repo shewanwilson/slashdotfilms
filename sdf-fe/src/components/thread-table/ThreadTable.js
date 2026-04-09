@@ -2,6 +2,9 @@ import React from 'react';
 import './ThreadTable.css';
 import Thread from "../thread/Thread";
 
+
+//Note: ThreadTable is rendered by Board component
+
 function ThreadTable({ threads = [], boardTitle, boardId }) {
     const threadsArray = Array.isArray(threads) ? threads : [];
 
@@ -26,7 +29,7 @@ function ThreadTable({ threads = [], boardTitle, boardId }) {
                     boardTitle={boardTitle}
                     threadId = {thread.thread_id}
                     title={thread.thread_title}
-                    startedBy={thread.started_by} 
+                    startedBy={thread.username} 
                     numberOfPosts={thread.no_of_posts}    
                     timeOfLastPost={thread.time_of_last_post}
                 />

@@ -1,5 +1,4 @@
 const db = require('../config/db');
-const { postPostReply } = require('../controllers/postController');
 
 const Post = { 
   getPostsByThreadId: async (thread_id) => {
@@ -12,11 +11,14 @@ const Post = {
         NULL AS post_id,
         NULL AS parent_id,
         t.started_by_user_id AS post_author_id,
+        u.username,
+        u.account_created_at,
         t.thread_title AS post_title,
         t.op_body AS post_body,
         t.created_at
       FROM thread t
       JOIN board b ON t.board_id = b.board_id
+      JOIN board_user u ON t.started_by_user_id = u.user_id
       WHERE t.thread_id = ?
 
       UNION ALL
@@ -28,12 +30,15 @@ const Post = {
         p.post_id,
         p.parent_id,
         p.post_author_id,
+        u.username,
+        u.account_created_at,
         p.post_title,
         p.post_body,
         p.created_at
       FROM post p      
       JOIN thread t ON p.thread_id = t.thread_id
       JOIN board b ON t.board_id = b.board_id
+      JOIN board_user u ON p.post_author_id = u.user_id
       WHERE p.thread_id = ?
 
       ORDER BY created_at ASC

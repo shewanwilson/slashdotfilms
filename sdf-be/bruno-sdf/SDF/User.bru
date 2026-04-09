@@ -1,0 +1,22 @@
+meta {
+  name: User
+  type: http
+  seq: 8
+}
+
+delete {
+  url: http://localhost:5000/api/delete
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "userId": 16    
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -7,7 +7,6 @@ import './Thread.css';
 function Thread(threadData) {
 
     var ThreadStyleClass = threadData.index %2===0 ? 'thread even':'thread odd';
-    //var LinkBackToBoardMenu = `/thread/posts/${threadData.threadId}`;
     const LinkBackToBoard = `/board/${threadData.boardId}/thread/${threadData.threadId}`;
 
     return (

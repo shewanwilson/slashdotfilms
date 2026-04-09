@@ -1,8 +1,13 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import './ProfileLinks.css';
 
 function ProfileLinks({ isSignedIn, onLogout }) {
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        onLogout();
+        navigate("/"); // go to BoardMenu 
+    }
     return (
         <div className="profile-links">
             {!isSignedIn ? (
@@ -12,13 +17,13 @@ function ProfileLinks({ isSignedIn, onLogout }) {
             ) : (
                 <>
                     <img
-                        src="https://ui-avatars.com/api/?name=Barry+Wilson&background=0D8ABC&color=fff"
+                        src="https://ui-avatars.com/api/?name=Dragon+Queen&background=0D8ABC&color=fff"
                         alt="Profile"
                         className="profile-avatar"
                     />
                     <button
                         className="logout-link"
-                        onClick={onLogout}
+                        onClick={handleLogout}
                     >
                         Logout
                     </button>

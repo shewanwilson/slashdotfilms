@@ -45,3 +45,28 @@ exports.postNewThread = async (req, res) => {
   }
 };
 
+// Test use only
+exports.deleteThread = async(req, res) => {
+try {
+    const { thread_id } = req.body; // better to pass via URL
+    //const user_id = req.session.user_id;
+
+    console.log("THREAD ID IN DELETE THREAD=== " + thread_id);
+
+    // if (!user_id) {
+    //   return res.status(401).json({ message: "Not authenticated" });
+    // }
+   
+    const deleted = await ThreadModel.deleteThreadByThreadId(thread_id);
+
+    if (!deleted) {
+      return res.status(404).json({ message: "Thread not found" });
+    }
+
+    res.status(200).json({ message: "Thread deleted successfully" });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};

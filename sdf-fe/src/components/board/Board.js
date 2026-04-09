@@ -10,6 +10,8 @@ const boardTitles = {
     2: 'Film General',
     3: 'Soapbox',
     4: 'Game Of Thrones',
+    5: 'TV General',
+    13: 'Auto Test Board'
 };
 
 function Board({ isSignedIn, onLogout }) {
@@ -28,7 +30,7 @@ function Board({ isSignedIn, onLogout }) {
     return (
         <div className="board">
             <Link to="/">← Back to Board Menu</Link>
-            <p>{title}</p>
+            <p data-testid="board-heading">{title}</p>
             <NewTopicLink isSignedIn={isSignedIn} boardId={boardId}/>
             <Pagination />
             <ThreadTable threads={threads} boardTitle={title} boardId={boardId} />

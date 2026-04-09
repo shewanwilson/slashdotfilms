@@ -49,13 +49,14 @@ function NewThread() {
 
   return (
     <div className="new-thread">
-      <h2 className="new-thread-title">Create New Thread</h2>
+      <h2 data-testid="new-thread-heading" className="new-thread-title">Create New Thread</h2>
 
       <form className="new-thread-form" onSubmit={handleSubmit}>
         {error && <div className="form-error">{error}</div>}
 
         <label htmlFor="thread-title">Title</label>
         <input
+          data-testid="new-thread-title"
           id="thread-title"
           type="text"
           value={thread_title}
@@ -65,6 +66,7 @@ function NewThread() {
 
         <label htmlFor="thread-body">Message</label>
         <textarea
+          data-testid="new-thread-body"
           id="thread-body"
           value={op_body}
           onChange={(e) => setBody(e.target.value)}
@@ -73,7 +75,7 @@ function NewThread() {
         />
 
         <div className="new-thread-actions">
-          <button type="submit" className="submit-btn">
+          <button data-testid="new-thread-submit-button" type="submit" className="submit-btn">
             Post Thread
           </button>
           

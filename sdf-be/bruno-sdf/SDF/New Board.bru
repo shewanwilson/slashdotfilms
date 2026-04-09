@@ -1,0 +1,23 @@
+meta {
+  name: New Board
+  type: http
+  seq: 10
+}
+
+post {
+  url: http://localhost:5000/api/board/new
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "board_name":"New Main Board from Bruno",
+    "board_type" : "main"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

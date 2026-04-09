@@ -6,7 +6,7 @@ import './BreadCrumb.css';
 function BreadCrumb({ boardId, boardTitle, threadTitle }) {
 
     return (
-        <div className="breadcrumb">
+        <div data-testid="thread-breadcrumb" className="breadcrumb">
 
             <Link to="/">Boards</Link>
             {" / "}

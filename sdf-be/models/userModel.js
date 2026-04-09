@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 exports.findByEmail = async (email) => {
   const [rows] = await db.query(
-    "SELECT id, email, password_hash FROM board_user WHERE email = ?",
+    "SELECT user_id, email, password_hash FROM board_user WHERE email = ?",
     [email]
   );
 
@@ -15,5 +15,13 @@ exports.createUser = async (username, email, password_hash) => {
     [username, email, password_hash]
   );
 
-  return { id: result.insertId, username, email };
+  return { id: result.insertId, username, email };  
 };
+
+exports.deleteUser = async (userId) => {
+  const [result] = await db.query(
+    "DELETE FROM board_user WHERE user_id = ?", [userId]
+  );
+
+  return result;
+}

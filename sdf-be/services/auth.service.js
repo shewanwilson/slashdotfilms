@@ -37,3 +37,15 @@ exports.login = async (email, password) => {
 
   return user;
 };
+
+exports.deleteUser = async (userId) => {
+  const result = await userModel.deleteUser(userId);
+
+  if (result.affectedRows === 0) {
+    const err = new Error("User not found");
+    err.code = "NOT_FOUND";
+    throw err;
+  }
+
+  return result;
+};

@@ -28,6 +28,8 @@ exports.postPostReply = async (req, res) => {
       //const post_author_id = req.user?.id || 1;
       const post_author_id = req.session.user_id;
 
+      console.log('USER SESSION ID IN CONTROLLER === ' + post_author_id);
+
       // Basic validation
       if (!post_body) {
         return res.status(400).json({ error: 'Post body is required' });

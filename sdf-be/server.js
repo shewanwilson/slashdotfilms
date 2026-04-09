@@ -43,11 +43,13 @@ app.use(
    ============================ */
 
 const authRoutes = require('./routes/authRoutes');
+const boardRoutes = require('./routes/boardRoutes');
 const threadRoutes = require('./routes/threadRoutes');
 const postRoutes = require('./routes/postRoutes');
 
 // API routes
 app.use('/api', authRoutes);
+app.use('/api', boardRoutes);
 app.use('/api', threadRoutes);
 app.use('/api', postRoutes);
 

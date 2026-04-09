@@ -7,7 +7,25 @@ const Thread = {
   }, 
   getThreadsByBoardId: async (board_id) => { 
     
-    const [rows] = await db.query("SELECT * FROM thread WHERE board_id = ?", [board_id]); 
+    const [rows] = await db.query(
+      `
+      SELECT 
+      t.thread_id,
+      t.thread_title,
+      t.op_body,
+      t.time_of_last_post,
+      t.no_of_posts,
+      u.username
+      FROM thread t
+      JOIN board_user u ON t.started_by_user_id = u.user_id  
+      WHERE t.board_id = ?
+      ORDER BY time_of_last_post DESC`,
+      
+      [board_id]
+      
+      
+      );
+       
     return rows; 
   },
   
@@ -20,6 +38,13 @@ const Thread = {
     );
 
     return result.insertId;
+  },
+  deleteThreadByThreadId: async (thread_id) => {
+    const [result] = await db.query(
+      "DELETE FROM thread WHERE thread_id = ?", [thread_id]
+    );
+
+    return result;
   }
 }; 
 

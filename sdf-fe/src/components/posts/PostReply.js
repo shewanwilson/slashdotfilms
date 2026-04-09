@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import BreadCrumb from '../bread-crumb/BreadCrumb';
 import PostContent from './PostContent';
-import './Post.css';
+import './PostReply.css';
 
 function PostReply() {
     const { boardId, threadId, postId } = useParams();
@@ -13,11 +13,11 @@ function PostReply() {
     const boardTitle = location.state?.boardTitle;
     const threadTitle = location.state?.threadTitle;
 
-    const [replyTitle, setReplyTitle] = useState('');
+    const [replyTitle, setReplyTitle] = useState("RE: " + threadTitle);
     const [replyBody, setReplyBody] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const isOriginalPost = location.state?.isOriginalPost;
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -33,6 +33,7 @@ function PostReply() {
             
             const res = await fetch(`http://localhost:5000/api/thread/${threadId}/reply`, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -77,7 +78,7 @@ function PostReply() {
             </div>
 
             <form className="reply-form" onSubmit={handleSubmit}>
-                <div className="form-group">
+                
                     <label htmlFor="reply-title">Reply title</label>
                     <input
                         id="reply-title"
@@ -85,9 +86,9 @@ function PostReply() {
                         value={replyTitle}
                         onChange={(e) => setReplyTitle(e.target.value)}
                     />
-                </div>
+               
 
-                <div className="form-group">
+                
                     <label htmlFor="reply-body">Reply body</label>
                     <textarea
                         id="reply-body"
@@ -95,12 +96,15 @@ function PostReply() {
                         onChange={(e) => setReplyBody(e.target.value)}
                         rows="8"
                         required
+                        placeholder="Write your post..."
+                        
                     />
-                </div>
-
-                <button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? 'Posting...' : 'Post Reply'}
-                </button>
+                
+                <div className="reply-actions">
+                    <button type="submit" className="submit-btn" disabled={isSubmitting}>
+                        {isSubmitting ? 'Posting...' : 'Post Reply'}
+                    </button>
+                </div>    
             </form>
         </div>
     );

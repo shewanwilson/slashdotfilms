@@ -12,25 +12,23 @@ type UserFixture = {
     email: string;
     password: string;
     username: string;
+    userId: number;
   };
+};
+
+type ThreadFixture = {
+  thread: { id: number | null };
 };
 
 /**
  * Extend the base Playwright test object
  * so we can inject a `testUser` into any test.
  */
-export const test = base.extend<UserFixture>({
+export const test = base.extend<UserFixture & ThreadFixture>({
   /**
-   * This fixture runs BEFORE each test that requests `testUser`.
+   * USER FIXTURE: This fixture runs BEFORE each test that requests `testUser`.
    */
-  testUser: async ({ playwright }, use) => {
-    /**
-     * Create a dedicated API request context.
-     * This allows us to talk directly to the backend,
-     * separate from the browser (UI).
-     *
-     * We use the backend URL from environment variables.
-     */
+  testUser: async ({ playwright }, use) => {    
     const apiContext = await playwright.request.newContext({
       baseURL: process.env.API_URL,
     });
@@ -84,18 +82,71 @@ export const test = base.extend<UserFixture>({
       );
     }
 
+    const responseJson = JSON.parse(bodyText);
+    const userId = responseJson.id;
+
     /**
      * If successful, make the user available to the test.
      * `use()` hands control back to the test execution.
      */
-    await use(userData);
+    await use({...userData, userId});
+
+    // ============================
+    // 🧹 TEARDOWN (runs after test)
+    // ============================
+
+    console.log('\n========== DELETING TEST USER ==========');
+
+    try {
+      const deleteResponse = await apiContext.delete('/api/delete', {
+        data: { userId }, // or userId if you have it
+      });
+
+      const deleteStatus = deleteResponse.status();
+      const deleteBody = await deleteResponse.text();
+
+      console.log('Delete status:', deleteStatus);
+      console.log('Delete body:', deleteBody);
+
+      if (!deleteResponse.ok()) {
+        console.warn('⚠️ Failed to delete test user');
+      }
+    } catch (err) {
+      console.error('❌ Error deleting test user:', err);
+    }
+
+    console.log('=========================================\n');
+
+
 
     /**
      * Clean up the API context after test completes.
-     * (No user deletion as requested.)
-     */
+    */
     await apiContext.dispose();
   },
+    // 🧵 DELETE THREAD FIXTURE
+    thread: async ({ request, testUser }, use) => {
+      const thread = { id: null };
+
+      await use(thread);
+
+    if (thread.id) {
+      console.log('Deleting thread:', thread.id);
+      const result = await request.delete(`${process.env.API_URL}/api/thread/delete`, {
+        data: { thread_id: thread.id },
+      });
+      const status = result.status();
+      const body = await result.text();
+
+      console.log('Thread delete status:', status);
+      console.log('Thread delete body:', body);
+
+      if (!result.ok()) {
+        console.warn('⚠️ Thread delete failed');
+      }
+    }
+  },
+
 });
 
 export { expect };
