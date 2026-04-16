@@ -1,9 +1,11 @@
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import LastPostTime from "../LastPostTime";
 
 function PostContent({ post, headingLevel = 4, onReply, className = '' }) {
     const HeadingTag = `h${headingLevel}`;
     const date = new Date(post.created_at);
-
+    
     const datestamp =
         date.toLocaleDateString("en-US", {
             year: "numeric",
@@ -57,8 +59,10 @@ function PostContent({ post, headingLevel = 4, onReply, className = '' }) {
             </div>
 
             {/* BODY */}
-            <div className="post-body">
-                <p>{post.post_body}</p>
+            <div className="post-body">                
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {post.post_body}
+                </ReactMarkdown>
             </div>
         </div>
     );

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import BreadCrumb from '../bread-crumb/BreadCrumb';
+import RichTextButtons from '../rich-text-buttons/RichTextButtons';
 import PostContent from './PostContent';
 import './PostReply.css';
 
@@ -17,6 +18,8 @@ function PostReply() {
     const [replyBody, setReplyBody] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const isOriginalPost = location.state?.isOriginalPost;
+
+    const textareaRef = useRef();
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -90,9 +93,11 @@ function PostReply() {
 
                 
                     <label htmlFor="reply-body">Reply body</label>
+                    <RichTextButtons textareaRef={textareaRef} setBody={setReplyBody}/>
                     <textarea
                         id="reply-body"
                         value={replyBody}
+                        ref={textareaRef}
                         onChange={(e) => setReplyBody(e.target.value)}
                         rows="8"
                         required

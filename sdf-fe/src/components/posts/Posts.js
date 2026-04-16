@@ -32,7 +32,7 @@ function buildPostTree(postsArray) {
 }
 
 /**
- * 🔥 FLATTEN WITH SUBTHREAD TRACKING
+ *  FLATTEN WITH SUBTHREAD TRACKING
  *
  * This does 3 things:
  * 1. Flattens nested replies into a linear list (for simple rendering)

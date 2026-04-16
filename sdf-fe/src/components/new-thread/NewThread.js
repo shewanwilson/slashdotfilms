@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import PostContent from "../posts/PostContent";
+import RichTextButtons from '../rich-text-buttons/RichTextButtons';
 import "./NewThread.css";
 
 function NewThread() {
@@ -9,6 +11,17 @@ function NewThread() {
   const [thread_title, setTitle] = useState("");
   const [op_body, setBody] = useState("");
   const [error, setError] = useState("");
+
+  const textareaRef = useRef();
+
+  const [showPreview, setShowPreview] = useState(false);
+
+  const previewPost = {
+    post_title: thread_title,
+    post_body: op_body,
+    username: "You",
+    created_at: new Date().toISOString(),
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,6 +64,15 @@ function NewThread() {
     <div className="new-thread">
       <h2 data-testid="new-thread-heading" className="new-thread-title">Create New Thread</h2>
 
+      {showPreview && (
+        <PostContent
+          post={previewPost}
+          headingLevel={4}
+          className="preview-post"
+        />
+      )}
+
+
       <form className="new-thread-form" onSubmit={handleSubmit}>
         {error && <div className="form-error">{error}</div>}
 
@@ -65,8 +87,10 @@ function NewThread() {
         />
 
         <label htmlFor="thread-body">Message</label>
+        <RichTextButtons textareaRef={textareaRef} setBody={setBody}/>
         <textarea
           data-testid="new-thread-body"
+          ref={textareaRef}
           id="thread-body"
           value={op_body}
           onChange={(e) => setBody(e.target.value)}
@@ -75,7 +99,10 @@ function NewThread() {
         />
 
         <div className="new-thread-actions">
-          <button data-testid="new-thread-submit-button" type="submit" className="submit-btn">
+          <button data-testid="new-thread-preview-button" type="button" className="new-thread-btn" onClick={() => setShowPreview((prev) => !prev)}>
+            Preview Post
+          </button>
+          <button data-testid="new-thread-submit-button" type="submit" className="new-thread-btn">
             Post Thread
           </button>
           
