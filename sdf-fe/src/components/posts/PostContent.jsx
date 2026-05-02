@@ -2,10 +2,14 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import LastPostTime from "../LastPostTime";
 
-function PostContent({ post, headingLevel = 4, onReply, className = '' }) {
+function PostContent({ post, headingLevel = 4, onReply, onEdit}) {
     const HeadingTag = `h${headingLevel}`;
     const date = new Date(post.created_at);
     
+    // Mark post as OP if parent_id is 0
+    const isOp = post.parent_id === 0;    
+
+    // TODO: Remove this and add it to Post.model
     const datestamp =
         date.toLocaleDateString("en-US", {
             year: "numeric",
@@ -20,7 +24,7 @@ function PostContent({ post, headingLevel = 4, onReply, className = '' }) {
         });
 
     return (
-        <div className={`post ${className}`}>
+        <div className={`post ${isOp ? 'op' : ''}`}>
 
             {/* HEADER */}
             <div className="post-header">
@@ -46,6 +50,15 @@ function PostContent({ post, headingLevel = 4, onReply, className = '' }) {
                             {datestamp}
                         </span>
                     </div>
+
+                    {post.can_edit && (
+                        <button
+                            className="edit-post-btn"
+                            onClick={() => onEdit(post)}
+                        >
+                            Edit
+                        </button>
+                    )}
 
                     {onReply && (
                         <button

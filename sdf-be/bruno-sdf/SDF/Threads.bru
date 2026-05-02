@@ -5,9 +5,13 @@ meta {
 }
 
 get {
-  url: http://localhost:5000/api/threads/22
+  url: http://localhost:5000/api/threads/{{board_id}}
   body: none
   auth: inherit
+}
+
+vars:pre-request {
+  board_id: 1
 }
 
 settings {

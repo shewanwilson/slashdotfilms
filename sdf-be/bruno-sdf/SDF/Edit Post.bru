@@ -1,0 +1,28 @@
+meta {
+  name: Edit Post
+  type: http
+  seq: 12
+}
+
+put {
+  url: http://localhost:5000/api/post/{{post_id}}/edit
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {  
+    "post_title":"edit test",
+    "post_body":"edit test" 
+  }
+}
+
+vars:pre-request {
+  thread_id: 22
+  post_id: 39
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

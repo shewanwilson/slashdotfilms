@@ -1,43 +1,19 @@
-const ThreadModel = require('../models/threadModel'); 
+const db = require('../config/db');
+const ThreadModel = require('../models/threadModel');
+const PostModel = require('../models/postModel');
 
-exports.getThreadsByBoardId = async (req, res) => {  
-  try { 
-    
+/**
+ * Get all threads for a board
+ */
+exports.getThreadsByBoardId = async (req, res) => {
+  try {
     const threads = await ThreadModel.getThreadsByBoardId(req.params.board_id);
 
-    if (!threads) return res.status(404).json({ message: "Threads not found" }); 
-    res.json(threads); 
-  } catch (error) { 
-    res.status(500).json({ message: error.message }); 
-  }
-}; 
-
-exports.postNewThread = async (req, res) => {
-  try {
-    const { thread_title, op_body } = req.body;
-    const board_id = req.params.board_id;
-    const started_by_user_id = req.session.user_id;
-
-    console.log('Session User ID in ThreadController = ' + started_by_user_id);
-
-    if (!started_by_user_id) {
-      return res.status(401).json({ message: "Not authenticated" });
+    if (!threads) {
+      return res.status(404).json({ message: "Threads not found" });
     }
 
-    if (!thread_title || !op_body) {
-      return res.status(400).json({
-        message: "Thread title and body are required"
-      });
-    }
-
-    const thread_id = await ThreadModel.createThread(
-      thread_title,
-      op_body,
-      board_id,
-      started_by_user_id
-    );
-
-    res.status(201).json({ thread_id });
+    res.json(threads);
 
   } catch (error) {
     console.error(error);
@@ -45,21 +21,76 @@ exports.postNewThread = async (req, res) => {
   }
 };
 
-// Test use only
-exports.deleteThread = async(req, res) => {
-try {
-    const { thread_id } = req.body; // better to pass via URL
-    //const user_id = req.session.user_id;
 
-    console.log("THREAD ID IN DELETE THREAD=== " + thread_id);
+/**
+ * Create a new thread
+ * (thread + OP post in one transaction)
+ */
+exports.postNewThread = async (req, res) => {
+  const DB_CONNECTION = await db.getConnection();
 
-    // if (!user_id) {
-    //   return res.status(401).json({ message: "Not authenticated" });
-    // }
-   
-    const deleted = await ThreadModel.deleteThreadByThreadId(thread_id);
+  try {
+    const { post_title, post_body } = req.body;
+    const board_id = req.params.board_id;
+    const user_id = req.session.user_id || req.headers['bruno-test-user-id'];
 
-    if (!deleted) {
+    if (!user_id) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    if (!post_title || !post_body) {
+      return res.status(400).json({
+        message: "Title and body are required"
+      });
+    }
+
+    await DB_CONNECTION.beginTransaction();
+
+    // 1. Create thread (metadata only)
+    const thread_id = await ThreadModel.createThread(
+      DB_CONNECTION,
+      board_id,
+      user_id
+    );
+
+    // 2. Create OP post
+    await PostModel.createPost(DB_CONNECTION, {
+      thread_id,
+      parent_id: 0,
+      post_author_id: user_id,
+      post_title,
+      post_body
+    });
+
+    // thread defaults handle:
+    // no_of_posts = 1
+    // time_of_last_post = NOW()
+
+    await DB_CONNECTION.commit();
+
+    res.status(201).json({ thread_id });
+
+  } catch (error) {
+    await DB_CONNECTION.rollback();
+    console.error(error);
+    res.status(500).json({ message: "Failed to create thread" });
+
+  } finally {
+    DB_CONNECTION.release();
+  }
+};
+
+
+/**
+ * Delete thread
+ */
+exports.deleteThread = async (req, res) => {
+  try {
+    const { thread_id } = req.body;
+
+    const result = await ThreadModel.deleteThreadByThreadId(thread_id);
+
+    if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Thread not found" });
     }
 

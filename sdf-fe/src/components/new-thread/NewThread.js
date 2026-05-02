@@ -8,8 +8,8 @@ function NewThread() {
   const { boardId } = useParams();
   const navigate = useNavigate();
 
-  const [thread_title, setTitle] = useState("");
-  const [op_body, setBody] = useState("");
+  const [post_title, setTitle] = useState("");
+  const [post_body, setBody] = useState("");
   const [error, setError] = useState("");
 
   const textareaRef = useRef();
@@ -17,8 +17,8 @@ function NewThread() {
   const [showPreview, setShowPreview] = useState(false);
 
   const previewPost = {
-    post_title: thread_title,
-    post_body: op_body,
+    post_title: post_title,
+    post_body: post_body,
     username: "You",
     created_at: new Date().toISOString(),
   };
@@ -26,7 +26,7 @@ function NewThread() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!thread_title.trim() || !op_body.trim()) {
+    if (!post_title.trim() || !post_body.trim()) {
       setError("Title and message are required.");
       return;
     }
@@ -42,7 +42,7 @@ function NewThread() {
             "Content-Type": "application/json"
           },
           credentials: "include",
-          body: JSON.stringify({ thread_title, op_body })
+          body: JSON.stringify({ post_title, post_body })
         }
       );
 
@@ -81,7 +81,7 @@ function NewThread() {
           data-testid="new-thread-title"
           id="thread-title"
           type="text"
-          value={thread_title}
+          value={post_title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter thread title"
         />
@@ -92,7 +92,7 @@ function NewThread() {
           data-testid="new-thread-body"
           ref={textareaRef}
           id="thread-body"
-          value={op_body}
+          value={post_body}
           onChange={(e) => setBody(e.target.value)}
           placeholder="Write your post..."
           rows={8}

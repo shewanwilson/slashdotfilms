@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Post from '../posts/Post.model.tsx';
 import BreadCrumb from '../bread-crumb/BreadCrumb';
-import OriginalPost from './OriginalPost';
 import PostContent from './PostContent';
 import './Post.css';
 
@@ -10,25 +10,27 @@ import './Post.css';
  * Each post gets a `children` array.
  */
 function buildPostTree(postsArray) {
-    const map = {};
-    const roots = [];
+    const mapOfPosts = {};
+    const treeRoots = [];
 
-    postsArray.forEach(post => {
-        map[post.post_id] = {
-            ...post,
-            children: []
-        };
+    // Convert each post row from db into Post object
+    // Store Post objects in map mapOfPosts
+    postsArray.forEach(row => {
+        const post = new Post(row);
+        mapOfPosts[post.post_id] = post;
     });
 
-    postsArray.forEach(post => {
-        if (post.parent_id === 0) {
-            roots.push(map[post.post_id]);
-        } else if (map[post.parent_id]) {
-            map[post.parent_id].children.push(map[post.post_id]);
+    Object.values(mapOfPosts).forEach(post => {
+        // if post has a parent_id that exists in this array
+        if (mapOfPosts[post.parent_id]) {
+            // add it as a child of that post
+            mapOfPosts[post.parent_id].addChild(post);
+        } else {
+            treeRoots.push(post);
         }
     });
 
-    return roots;
+    return treeRoots;
 }
 
 /**
@@ -52,22 +54,15 @@ function flattenPosts(posts, depth = 1, result = [], threadRootId = null, counte
         // Increment how many posts we've seen in this subthread
         counters[rootId]++;
 
-        result.push({
-            ...post,
-            depth,
-            threadRootId: rootId,
-            visibleIndex: counters[rootId] // position within this subthread
-        });
+        post.depth = depth;
+        post.threadRootId = rootId;
+        post.visibleIndex = counters[rootId];
+
+        result.push(post);
 
         // Recurse into children
         if (post.children?.length > 0) {
-            flattenPosts(
-                post.children,
-                depth + 1,
-                result,
-                rootId,
-                counters
-            );
+            flattenPosts(post.children, depth + 1, result, rootId, counters);
         }
     });
 
@@ -76,22 +71,19 @@ function flattenPosts(posts, depth = 1, result = [], threadRootId = null, counte
 
 function Posts() {
     const { boardId, threadId } = useParams();
-    const navigate = useNavigate();
-
     const [data, setData] = useState([]);
 
-    /**
-     * Tracks which subthreads have been expanded by the user.
-     * Example:
-     * {
-     *   123: true,
-     *   456: true
-     * }
-     */
+    /* Handles navigation to reply screen in submit function */
+    const navigate = useNavigate();
+
+
+    /* Tracks which subthreads have been expanded by the user. */
     const [expandedThreads, setExpandedThreads] = useState({});
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/board/${boardId}/thread/${threadId}`)
+        fetch(`http://localhost:5000/api/board/${boardId}/thread/${threadId}`, {
+            credentials: "include"
+        })
             .then(res => res.json())
             .then(setData)
             .catch(err => console.error('Failed to fetch posts:', err));
@@ -105,31 +97,39 @@ function Posts() {
         );
     }
 
+    console.log("RAW DATA:", data);
     // First item = original post, rest = replies
-    const [thread, ...replies] = data;
+    const [threadOp, ...replies] = data;
+    console.log("REPLIES:", replies);
+    // Set board title FROM board table 
+    const boardTitle = threadOp.board_name;
 
-    const boardTitle = thread?.board_name;
-    const threadTitle = thread?.post_title;
+    // convert OP to Post model instance
+    const originalPost = new Post(threadOp)
+    // Set threadTitle FROM thread table 
+    const threadTitle = originalPost.post_title;
 
     // Step 1: Build nested structure
     const nestedReplies = buildPostTree(replies);
+    console.log("NESTED:", nestedReplies);
 
     // Step 2: Flatten while tracking subthread positions
     const flatPosts = flattenPosts(nestedReplies);
-
-    /**
-     * Handles navigation to reply screen
-     */
-    const handleReplyClick = (post, isOriginalPost = false) => {
+    console.log("FLAT:", flatPosts);
+    /* Handles navigation to reply screen */
+    const handleReplyClick = (post) => {
         navigate(`/board/${boardId}/thread/${threadId}/reply/${post.post_id}`, {
-            state: {
-                post,
-                boardTitle,
-                threadTitle,
-                isOriginalPost
-            }
+            state:
+                { post, boardTitle, threadTitle }
         });
     };
+
+    const handleEditClick = (post) => {
+        navigate(`/board/${boardId}/thread/${threadId}/reply/${post.post_id}`, {
+            state:
+                { post, boardTitle, threadTitle, editPost: true }
+        });
+    }
 
     return (
         <div className="post-table">
@@ -142,11 +142,16 @@ function Posts() {
             {/* =========================
                ORIGINAL POST (OP)
             ========================= */}
-            {thread && (
-                <OriginalPost
-                    thread={thread}
-                    onReply={(post) => handleReplyClick(post, true)}
-                />
+            {originalPost && (
+                <div className="post-wrapper depth-0">
+                    <PostContent
+                        post={originalPost}
+                        headingLevel={3}
+                        onReply={handleReplyClick}
+                        onEdit={handleEditClick}
+                        className="op"
+                    />
+                </div>
             )}
 
             {/* =========================
@@ -159,10 +164,7 @@ function Posts() {
 
                     const isExpanded = expandedThreads[post.threadRootId];
 
-                    /**
-                     * Hide posts beyond the first 8 in a subthread
-                     * unless the user has expanded it
-                     */
+                    /* Hide posts beyond the first 8 in a subthread unless the user has expanded it */
                     const shouldHide =
                         post.visibleIndex > 8 && !isExpanded;
 
@@ -198,14 +200,14 @@ function Posts() {
                     return (
                         <div
                             key={post.post_id}
-                            className={`post-wrapper depth-${effectiveDepth} ${
-                                isFlattened ? 'flattened' : ''
-                            }`}
+                            className={`post-wrapper depth-${effectiveDepth} ${isFlattened ? 'flattened' : ''
+                                }`}
                         >
                             <PostContent
                                 post={post}
                                 headingLevel={4}
-                                onReply={(p) => handleReplyClick(p, false)}
+                                onReply={handleReplyClick}
+                                onEdit={handleEditClick}
                                 className="reply"
                             />
                         </div>
